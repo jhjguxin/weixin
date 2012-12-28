@@ -24,8 +24,8 @@ DataMapper.setup(:default, "sqlite3:./db/fumutang.db")
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
-WeiXin::Config.token = "52fumutang"
-WeiXin::Config.url = "http://fumutang.bbtang.com"
+WeiXin::Config.token = "weixin"
+WeiXin::Config.url = "http://weixin.bbtang.com"
 
 #token, timestamp, nonce
 def geneate_signature(token,timestamp,nonce)
@@ -67,5 +67,5 @@ end
 
 post '/' do
   #puts Hash.from_xml params
-  puts request.body 
+  puts request.body
 end

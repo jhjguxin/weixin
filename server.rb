@@ -24,8 +24,8 @@ DataMapper.setup(:default, "sqlite3:./db/fumutang.db")
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
-WeiXin::Config.token = "52fumutang"
-WeiXin::Config.url = "http://fumutang.bbtang.com"
+WeiXin::Config.token = "weixin"
+WeiXin::Config.url = "http://weixin.bbtang.com"
 
 #token, timestamp, nonce
 def geneate_signature(token,timestamp,nonce)
@@ -35,7 +35,7 @@ end
 
 def valid_signature?(signature,timestamp,nonce)
   token = WeiXin::Config.token
-  if present?(signature) and present?(token) and present?(timestamp) and present?(nonce)
+  if signature.present? and token.present? and timestamp.present? and nonce.present?
     guess_signature = geneate_signature(token,timestamp,nonce)
     guess_signature.eql? signature
   end
