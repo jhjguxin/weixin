@@ -71,6 +71,8 @@ class Server < Sinatra::Application
 
   post '/' do
     #puts Hash.from_xml params
-    puts request.body
+    puts params
+    request.body.rewind  # in case someone already read it
+    data = JSON.parse request.body.read
   end
 end
