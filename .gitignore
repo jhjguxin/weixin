@@ -16,7 +16,7 @@ dump.rdb
 .sass-cache
 
 # Ignore all logfiles and tempfiles.
-/log
+/log/
 /tmp
 resque.pid
 #db/schema.rb
