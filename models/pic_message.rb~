@@ -1,0 +1,10 @@
+class TextMessage
+  include DataMapper::Resource
+
+  property :id,         Serial
+  property :to_user_name,  String
+  property :from_user_name,      String
+  property :msg_type,        String
+  property :content,       Text
+  property :create_time,       Text
+end

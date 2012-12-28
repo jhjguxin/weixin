@@ -1,0 +1,12 @@
+require 'rubygems'
+require 'bundler/setup'
+require File.join(File.dirname(__FILE__),"server")
+
+$:.unshift "#{File.dirname(__FILE__)}/lib"
+
+use Rack::ShowExceptions
+use Rack::Runtime
+use Rack::CommonLogger
+
+run Sinatra::Application
+
