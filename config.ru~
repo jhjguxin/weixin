@@ -2,11 +2,22 @@ require 'rubygems'
 require 'bundler/setup'
 require File.join(File.dirname(__FILE__),"server")
 
-$:.unshift "#{File.dirname(__FILE__)}/lib"
+#logger = Logger.new("./log/#{Sinatra::Base.environment}.log")
 
-use Rack::ShowExceptions
-use Rack::Runtime
-use Rack::CommonLogger
+#use Rack::CommonLogger, logger
 
-run Sinatra::Application
+set :raise_errors, true
+
+log = File.new("./log/#{Sinatra::Base.environment}.log", "a")
+#STDOUT.reopen(log)
+#STDERR.reopen(log)
+$stdout.sync=true
+$stderr.sync=true
+
+
+set :sessions, true
+set :logging, true
+set :dump_errors, false
+
+run Server
 
