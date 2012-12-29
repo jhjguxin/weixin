@@ -20,11 +20,11 @@ class NewsMessage
  <FromUserName><![CDATA[#{from_user_name}]]></FromUserName>
  <CreateTime>#{create_time.to_i}</CreateTime>
  <MsgType><![CDATA[#{msg_type}]]></MsgType>
- <Content><![CDATA[]></Content>
+ <Content><![CDATA[]]></Content>
  <ArticleCount>#{articles.count}</ArticleCount>
  <Articles>
    #{articles.collect{|a| a.weixin_xml}.join("\n")}
- <Articles>
+ </Articles>
 </xml> 
 Text
   end

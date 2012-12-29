@@ -3,8 +3,8 @@ class Article
 
   property :id,         Serial
   property :title,  String
-  property :description,      String
-  property :pic_url,       String
+  property :description,      Text
+  property :pic_url,       String, :length => 255
   property :url,       String
   
   belongs_to :news_message  # defaults to :required => true

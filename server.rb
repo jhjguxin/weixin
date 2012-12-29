@@ -102,7 +102,8 @@ class Server < Sinatra::Application
                   "谢谢" => TextMessage,
                   %w(问题 提问 疑问 请问) => TextMessage,
                   "Hello2BizUser" => TextMessage,
-                 /孕(\d+)周/ => PictureMessage
+                  /孕(\d+)周/ => PictureMessage
+                  #/孕(\d+)周/ => NewsMessage
 
 
                }
@@ -114,23 +115,25 @@ class Server < Sinatra::Application
       KeyContent.each do |key,content_text|
         case key.class.name
           when "String"
-            reply_content = [content_text,content,key] if content.include?(key)
+            match_list = [content_text,content,key] if content.include?(key)
           when "Regexp"
-            reply_content = [content_text,content,key] if content.match(key)
+            match_list = [content_text,content,key] if content.match(key)
           when "Array"
-            reply_content = [content_text,content,key] if key.collect{|k| content.include? k}.uniq.compact.include? true
+            match_list = [content_text,content,key] if key.collect{|k| content.include? k}.uniq.compact.include? true
         end
       end
-      reply_content
+      match_list
     end
   end
 
   def reply_message(message)
-    if message.present?
+    if message.present? and message.respond_to? :content
       reply_content = match_message(message.content)
       if reply_content.present? and KeyMessage.has_key? reply_content[2]
         key = reply_content[2]
-        if KeyMessage[key].is_a? TextMessage
+        #puts "match #{reply_content[2]} and  will reply a #{KeyMessage[key]}"
+        reply_message = nil
+        if KeyMessage[key].name.eql? "TextMessage"
           reply_hash = {
                          to_user_name: message.from_user_name,
                          from_user_name: message.to_user_name,
@@ -139,23 +142,41 @@ class Server < Sinatra::Application
                          create_time:    Time.now.to_i.to_s
                                               
 }
+          #puts "#{reply_hash}"
           reply_message = TextMessage.create reply_hash
         end
-        if  KeyMessage[key].is_a? PictureMessage and key.eql? /孕(\d+)周/
+        if  KeyMessage[key].name.eql? "NewsMessage" and key.eql? /孕(\d+)周/
           #pic_url = "http://static.bbtang.com/weixin/images/yun/yun1.jpg"
-          yun_number = reply_content[1].match reply_content[2]
+          yun_number = reply_content[1].match(reply_content[2])[1]
           pic_url = "http://static.bbtang.com/weixin/images/yun/yun#{yun_number}.jpg"
           reply_hash = {
                          to_user_name: message.from_user_name,
                          from_user_name: message.to_user_name,
-                         msg_type:       message.msg_type,
-                         pic_url:        pic_url,
+                         #msg_type:       "news",
+                         #pic_url:        pic_url,
                          create_time:    Time.now.to_i.to_s
 
 }
-          reply_message = PictureMessage.create reply_hash
-
+          reply_message = NewsMessage.create reply_hash
+          article = reply_message.articles.create({title: "#{reply_content[1]}",pic_url: pic_url, description: "pic #{reply_content[1]}"})
+          puts "#{article.pic_url}"
+          reply_message.reload
         end
+        if  KeyMessage[key].name.eql? "PictureMessage" and key.eql? /孕(\d+)周/
+          #pic_url = "http://static.bbtang.com/weixin/images/yun/yun1.jpg"
+          yun_number = reply_content[1].match(reply_content[2])[1]
+          pic_url = "http://static.bbtang.com/weixin/images/yun/yun#{yun_number}.jpg"
+          reply_hash = {
+                         to_user_name: message.from_user_name,
+                         from_user_name: message.to_user_name,
+                         msg_type:       "image",
+                         pic_url:        pic_url,
+                         create_time:    Time.now.to_i.to_s
+                       }
+          reply_message = PictureMessage.create reply_hash
+        end
+        #puts "#{reply_message.weixin_xml}"
+        reply_message
       end
     end 
   end
@@ -180,8 +201,12 @@ class Server < Sinatra::Application
     data = request.body.read
     receive_message =  save_message data
     if receive_message.present?
+      puts "receive data #{data}"
       auto_reply_message = reply_message(receive_message)
-      auto_reply_message.weixin_xml if auto_reply_message.present?
+      if auto_reply_message.present?
+        puts "respond with #{auto_reply_message.weixin_xml if  auto_reply_message.present?}"
+        auto_reply_message.weixin_xml
+      end
     end
   end
 end

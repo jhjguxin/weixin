@@ -7,7 +7,7 @@ class PictureMessage
   property :msg_type,       String, :default  => "image"
   property :pic_url,        Text
   property :create_time,    Text
-  property :func_flag,      Integer, :default  => 0
+  #property :func_flag,      Integer, :default  => 0
   
   def weixin_xml
     template_xml = <<Text
@@ -17,7 +17,6 @@ class PictureMessage
  <CreateTime>#{create_time.to_i}</CreateTime>
  <MsgType><![CDATA[#{msg_type}]]></MsgType>
  <PicUrl><![CDATA[#{pic_url}]]></PicUrl>
- <FuncFlag><![CDATA[#{func_flag}]]></FuncFlag>
 </xml> 
 Text
   end
