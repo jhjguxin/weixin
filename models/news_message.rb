@@ -1,4 +1,4 @@
-class PictureMessage
+class NewsMessage
   include DataMapper::Resource
 
   property :id,             Serial
