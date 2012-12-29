@@ -1,4 +1,4 @@
-class PictureMessage
+class NewsMessage
   include DataMapper::Resource
 
   property :id,             Serial
@@ -11,7 +11,7 @@ class PictureMessage
   property :aritcle_count,   Integer, :default  => 0
   property :pic_url,        Text
   
-  has n, :articles, :through => Article
+  has n, :articles
   
   def weixin_xml
     template_xml = <<Text
@@ -27,4 +27,5 @@ class PictureMessage
  <Articles>
 </xml> 
 Text
+  end
 end

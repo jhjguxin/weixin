@@ -11,7 +11,7 @@ class NewsMessage
   property :aritcle_count,   Integer, :default  => 0
   property :pic_url,        Text
   
-  has n, :articles, :through => Article
+  has n, :articles
   
   def weixin_xml
     template_xml = <<Text

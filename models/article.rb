@@ -7,7 +7,8 @@ class Article
   property :pic_url,       String
   property :url,       String
   
-  belongs_to :picture_message  # defaults to :required => true
+  belongs_to :news_message  # defaults to :required => true
+  
   def weixin_xml
     template_xml = <<Text
 <item>
