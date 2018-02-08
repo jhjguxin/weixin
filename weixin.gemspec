@@ -17,11 +17,11 @@ Gem::Specification.new do |s|
 
   #s.add_dependency "rails", "~> 3.1.0"
   #s.add_dependency "oauth2", "~> 0.5.1"
-  s.add_dependency "sinatra", "~> 1.3.3"
-  s.add_dependency "activeresource", "~> 3.2.9"
-  s.add_dependency "data_mapper", "~> 1.2.0"
-  s.add_dependency "dm-sqlite-adapter", "~> 1.2.0"
+  s.add_dependency "sinatra"
+  s.add_dependency "activeresource"
+  s.add_dependency "data_mapper"
+  s.add_dependency "dm-sqlite-adapter"
   #s.add_development_dependency "rspec-rails"
-  s.add_development_dependency "debugger", "~> 1.2.3"
-  s.add_development_dependency "thin", "~> 1.5.0"
+  s.add_development_dependency "byebug"
+  s.add_development_dependency "thin"
 end

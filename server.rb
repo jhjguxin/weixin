@@ -8,7 +8,6 @@ require 'active_support/all'
 require 'digest/md5'
 require 'rexml/document'
 require "date"
-require 'debugger'
 require 'data_mapper' # requires all the gems listed above
 
 require 'config'

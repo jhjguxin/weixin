@@ -1,5 +1,4 @@
-#source 'http://rubygems.org'
-source 'http://ruby.taobao.org/'
+source 'https://rubygems.org'
 
 # Declare your gem's dependencies in weibo2.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
